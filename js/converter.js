@@ -1,4 +1,3 @@
-// ここからコードを書いてください
 export function setupConverter() {
   const converterForm = document.querySelector(".converter-form");
   const inputValue = document.querySelector(".converter-input");
@@ -11,10 +10,10 @@ export function setupConverter() {
     { name: "kilometer", base: 1000 },
     { name: "centimeter", base: 0.01 },
     { name: "millimeter", base: 0.001 },
-    { name: "inch", base: 0.0254 },
+    { name: "inch", base: 0.0254 }, 
     { name: "foot", base: 0.3048 },
     { name: "yard", base: 0.9144 },
-    { name: "mile", base: 1609.344 },
+    { name: "mile", base: 1609.344 }
   ];
 
   fromUnit.innerHTML = "";
@@ -25,9 +24,15 @@ export function setupConverter() {
     toUnit.innerHTML += `<option value="${unit.base}">${unit.name}</option>`;
   }
 
-  fromUnit.selectedIndex = 0;
-  toUnit.selectedIndex = 1;
+  // 最初のオプションを選択
+  if (fromUnit.options.length > 0) {
+    fromUnit.selectedIndex = 0;
+  }
+  if (toUnit.options.length > 0) {
+    toUnit.selectedIndex = 1;
+  }
 
+  // 変換を実行
   function convert() {
     const value = parseFloat(inputValue.value);
 
@@ -38,14 +43,14 @@ export function setupConverter() {
 
     const fromBase = fromUnit.value;
     const toBase = toUnit.value;
-    const convertedValue = (value * fromBase) / toBase;
+    const converted = (value * fromBase) / toBase;
 
-    result.textContent = `${value} ${
-      lengthUnit[fromUnit.selectedIndex].name
-    } = ${convertedValue.toFixed(3)} ${lengthUnit[toUnit.selectedIndex].name}`;
+    // 結果を3桁まで丸める
+    result.textContent = `${value} ${lengthUnit[fromUnit.selectedIndex].name} = ${converted.toFixed(3)} ${lengthUnit[toUnit.selectedIndex].name}`;
   }
 
   converterForm.addEventListener("input", convert);
 
-  convert();
+  // 初期化
+  convert(); // 初期値で変換を実行
 }
